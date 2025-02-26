@@ -58,7 +58,7 @@ static int cmd_info(char * args){
     printf("info后面必须有输入!");
     return 0;
   }
-  if(strcmp(args,"r"))
+  if(strcmp(args,"r")==0)
   {
     for(int i = 0; i < 8; i++) {
       printf("%-8s0x%08x%16d\t", regsl[i], reg_l(i), reg_l(i));
