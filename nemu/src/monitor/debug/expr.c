@@ -7,8 +7,23 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
-
+  TK_NOTYPE = 256, TK_EQ,
+  TK_HEX,
+  TK_NUM,
+  TK_REG,
+  TK_AND,
+  TK_NOT,
+  TK_OR,
+  TK_NEQ,
+  TK_MINUS,
+  TK_DER,//指针
+  TK_PLUS,
+  TK_MUL,
+  TK_DIV,
+  TK_LP,
+  TK_RP,
+  TK_SUB
+  
   /* TODO: Add more token types */
 
 };
@@ -21,9 +36,19 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
+  {"0|[1-9][0-9]*",TK_NUM},
+  {"0x[1-9A-Fa-f][0-9A-Fa-f]*",TK_HEX},
+  {"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TK_REG},
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
+  {"\\+", TK_PLUS},         // plus
+  {"\\-",TK_SUB},
+  {"\\*",TK_MUL},
+  {"\\/",TK_DIV},
+  {"!=",TK_NEQ},
+  {"\\(",TK_LP},
+  {"\\)",TK_RP},
+  {"&&",TK_AND},
+  {"[\\|]{2}", TK_OR},
   {"==", TK_EQ}         // equal
 };
 
@@ -78,9 +103,24 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+        tokens[nr_token].type=rules[i].token_type;
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NOTYPE:
+               break;
+          case TK_NUM:
+          case TK_HEX:
+          case TK_REG:
+               if(substr_len>32){
+                printf("数字长度超过32位，无法正常识别！");
+                break;
+               }else{
+                  strncpy(tokens[nr_token].str,substr_start,substr_len);
+                  nr_token++;
+                  break;
+               }
+          default:
+             nr_token++;
+             break;
         }
 
         break;
@@ -91,6 +131,24 @@ static bool make_token(char *e) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
+  }
+
+  if(tokens[0].type==TK_MUL){
+    tokens[0].type=TK_DER;
+  }else if(tokens[0].type==TK_SUB){
+    tokens[0].type=TK_MINUS;
+  }
+
+  for(int j=1;j<nr_token;j++){
+    if(tokens[j].type==TK_MUL&&tokens[j-1].type!=TK_RP&&
+    (tokens[j-1].type>TK_REG||tokens[j-1].type==TK_EQ))
+    {
+      tokens[j].type=TK_DER;
+    }
+    else if(tokens[j].type==TK_SUB&&tokens[j-1].type!=TK_RP&&
+      (tokens[j-1].type>TK_REG||tokens[j-1].type==TK_EQ)){
+        tokens[j].type=TK_MINUS;
+      }
   }
 
   return true;
@@ -107,3 +165,4 @@ uint32_t expr(char *e, bool *success) {
 
   return 0;
 }
+
