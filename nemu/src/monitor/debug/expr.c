@@ -173,23 +173,6 @@ int find_dominant_op(int p,int q){
   }
   return op;
 }
-
-
-bool check_parentheses(int left, int right){
-  int num=0;
-  for(int i=left;i<right;i++){
-    if(tokens[i].type==TK_LP){
-      num++;
-    }else if(tokens[i].type==TK_RP){
-      num--;
-    }
-  }
-  if(num==0){
-    return true;
-  }else {
-    return false;
-  }
-}
 uint32_t hex_to_dec(char str[32]) {
   uint result = 0;
   for (int i = 2; i < 10; ++i) {
@@ -205,6 +188,22 @@ uint32_t hex_to_dec(char str[32]) {
       result = 16 * result + tmp;
   }
   return result;
+}
+
+bool check_parentheses(int left, int right){
+  int num=0;
+  for(int i=left;i<right;i++){
+    if(tokens[i].type==TK_LP){
+      num++;
+    }else if(tokens[i].type==TK_RP){
+      num--;
+    }
+  }
+  if(num==0){
+    return true;
+  }else {
+    return false;
+  }
 }
 
 uint32_t eval(int p,int q ){
@@ -255,7 +254,6 @@ uint32_t eval(int p,int q ){
     }
   }
   else if(tokens[p].type == TK_LP && tokens[q].type == TK_RP){
-
     return eval(p+1,q-1);
   }
 
@@ -315,11 +313,12 @@ uint32_t expr(char *e, bool *success) {
           }
   }
   
-  //if (!check_parentheses(0, nr_token)) {
+  if (!check_parentheses(0, nr_token)) {
     *success = true;
-  //   return 0;
-  // } else {
+   return 0;
+  } else {
     return eval(0, nr_token - 1);
+  }
 }
 
 
