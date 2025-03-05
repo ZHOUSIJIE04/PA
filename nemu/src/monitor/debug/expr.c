@@ -166,10 +166,10 @@ int find_dominant_op(int p,int q){
         }else if(tokens[i].type==TK_MUL||tokens[i].type==TK_DIV){
           temp=5;
         }
-     }
-     if(temp<=minop){//必须取等号表示相同优先级下右边的那个更低
+      if(temp<=minop){//必须取等号表示相同优先级下右边的那个更低
       minop=temp;
       op=i;
+     }
      }
   }
   printf("op=%d",op);
