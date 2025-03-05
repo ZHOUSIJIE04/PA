@@ -96,7 +96,7 @@ static int cmd_info(char * args){
     return 0;
   }
   else if(strcmp(args,"w")==0){
-    //print_wp();
+    print_wp();
   }else{
     printf("输入的格式存在错误，请重新输入，或输入help获取提示！");
   }
@@ -123,7 +123,37 @@ static int cmd_x(char *args) {
   printf("\n");
   return 0;
 }
+static int cmd_w(char *args) {
+  bool success = true;
+  uint32_t r = expr(args, &success);
 
+  if (success == false)
+      printf("Expr calculation error!\n");
+
+  WP *wp = new_wp(r);
+  wp->result = r;
+  strcpy(wp->expr, args);
+  printf("Start watch: %u \n", r);
+  return 0;
+}
+
+static int cmd_d(char *args) {
+  int num = 0;
+  int input = sscanf(args, "%d", &num);
+  if (input <= 0) {
+      printf("args error in cmd_si\n");
+      return 0;
+  }
+  bool res = delete_wp(num);
+  if (res == 0)
+  { 
+    printf("error: no watchpoint %d\n", num);
+    return 1;
+  }
+  else
+      printf("Success delete watchpoint %d\n", num);
+  return 0;
+}
 static struct {
   char *name;
   char *description;
@@ -138,6 +168,8 @@ static struct {
   {"info", "Print reg info or Print monitor point information", cmd_info},
   {"x", "Scan the memory", cmd_x},
   {"p", "Expr evaluation", cmd_p},
+  {"w", "New a watchpoints", cmd_w},
+  {"d", "Delete a watchpoints", cmd_d},
 
 };
 
@@ -204,4 +236,5 @@ void ui_mainloop(int is_batch_mode) {
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
   }
 }
+
 
