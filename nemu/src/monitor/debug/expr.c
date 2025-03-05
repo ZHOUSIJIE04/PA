@@ -319,6 +319,7 @@ uint32_t expr(char *e, bool *success) {
   
   if (!check_parentheses(0, nr_token)) {
     *success = true;
+   printf("括号不匹配！");
    return 0;
   } else {
     return eval(0, nr_token - 1);
