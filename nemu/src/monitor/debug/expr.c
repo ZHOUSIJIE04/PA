@@ -172,6 +172,7 @@ int find_dominant_op(int p,int q){
       op=i;
      }
   }
+  printf("op=%d",op);
   return op;
 }
 uint32_t hex_to_dec(char str[32]) {
