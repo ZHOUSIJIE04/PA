@@ -5,7 +5,7 @@
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
-
+static int wpnum=0;
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
@@ -39,11 +39,14 @@ WP * new_wp(){
     result->next=NULL;
    }
    head=result;
+   result->NO=wpnum;
+   wpnum++;
    return result;
 }
 
 void free_WP(WP * wp){
    wp->NO=0;
+   wpnum--;
    if(free_!=NULL){
     wp->next=free_;
    }else{
@@ -54,6 +57,11 @@ void free_WP(WP * wp){
 bool delete_wp(int n){
   WP* temp=head;
   WP * cur=head->next;
+  if(head->NO==n){
+    head=head->next;
+    free_WP(temp);
+    return 1;
+  }
   while(cur!=NULL){
      if(cur->NO==n){
       temp->next=cur->next;
@@ -73,11 +81,11 @@ void print_wp() {
     return;
   }
   printf("watchpoint:\n");
-  printf("NO.  expr    hitTimes  result\n");
+  printf("NO.  expr    hitTimes\n");
   WP * wptemp = head;
   while (wptemp != NULL)
   {
-    printf("%d  %s    %d         %d\n", wptemp -> NO, wptemp -> expr, wptemp -> hitTimes,wptemp->result);
+    printf("%d  %s    %d\n", wptemp -> NO, wptemp -> expr, wptemp -> hitTimes);
     wptemp = wptemp ->next;
   }
 }
