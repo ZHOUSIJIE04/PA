@@ -145,7 +145,7 @@ int find_dominant_op(int p,int q){
   for(int i=p;i<=q;i++){
      if(tokens[i].type==TK_LP){
       num++;
-      printf("num=%d",num);
+      //printf("num=%d",num);
       continue;
      }else if(tokens[i].type==TK_RP){
       num--;
@@ -172,7 +172,7 @@ int find_dominant_op(int p,int q){
      }
      }
   }
-  printf("op=%d",op);
+  //printf("op=%d",op);
   return op;
 }
 uint32_t hex_to_dec(char str[32]) {
@@ -262,7 +262,7 @@ uint32_t eval(int p,int q ){
 
   else {
     int op = find_dominant_op(p,q);
-    printf("p=%d,q=%d",p,q);
+    //printf("p=%d,q=%d",p,q);
     uint32_t val1=eval(p,op-1);
     uint32_t val2=eval(op+1,q);
     
