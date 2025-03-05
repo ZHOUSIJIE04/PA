@@ -23,8 +23,7 @@ enum {
   TK_DIV,
   TK_LP,
   TK_RP,
-  TK_SUB
-  
+  TK_SUB,
   /* TODO: Add more token types */
 
 };
@@ -49,8 +48,9 @@ static struct rule {
   {"\\(",TK_LP},
   {"\\)",TK_RP},
   {"&&",TK_AND},
+  {"!",TK_NOT},
   {"[\\|]{2}", TK_OR},
-  {"==", TK_EQ}    
+  {"==", TK_EQ}         // equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -152,7 +152,7 @@ int find_dominant_op(int p,int q){
       continue;
      }else if(num==0){
        if(tokens[i].type==TK_NUM||tokens[i].type==TK_HEX||tokens[i].type==TK_REG||
-          tokens[i].type==TK_DER||tokens[i].type==TK_MINUS){
+          tokens[i].type==TK_DER||tokens[i].type==TK_MINUS||tokens[i].type==TK_NOT){
           temp=0;
           continue;
         }else if(tokens[i].type==TK_OR){
@@ -325,5 +325,6 @@ uint32_t expr(char *e, bool *success) {
     return eval(0, nr_token - 1);
   }
 }
+
 
 
