@@ -37,10 +37,10 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-  {"0|[1-9][0-9]*",TK_NUM},
+  {" +", TK_NOTYPE}, 
   {"0x[1-9A-Fa-f][0-9A-Fa-f]*",TK_HEX},
+  {"0|[1-9][0-9]*",TK_NUM},
   {"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TK_REG},
-  {" +", TK_NOTYPE},    // spaces
   {"\\+", TK_PLUS},         // plus
   {"\\-",TK_SUB},
   {"\\*",TK_MUL},
@@ -50,7 +50,7 @@ static struct rule {
   {"\\)",TK_RP},
   {"&&",TK_AND},
   {"[\\|]{2}", TK_OR},
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ}    
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
