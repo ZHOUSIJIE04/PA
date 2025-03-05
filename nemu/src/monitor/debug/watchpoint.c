@@ -81,7 +81,7 @@ void print_wp() {
     return;
   }
   printf("watchpoint:\n");
-  printf("NO.  expr    hitTimes\n");
+  printf("NO.  expr    hitTimes    result\n");
   WP * wptemp = head;
   while (wptemp != NULL)
   {
