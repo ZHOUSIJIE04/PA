@@ -145,6 +145,7 @@ int find_dominant_op(int p,int q){
   for(int i=p;i<=q;i++){
      if(tokens[i].type==TK_LP){
       num++;
+      printf("num=%d",num);
       continue;
      }else if(tokens[i].type==TK_RP){
       num--;
