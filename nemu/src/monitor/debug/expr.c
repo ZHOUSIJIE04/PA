@@ -244,7 +244,12 @@ uint32_t eval(int p,int q ){
       }
      }
 
-  }else if(p==q-1){ //单目运算符处理
+  }
+  else if(tokens[p].type == TK_LP && tokens[q].type == TK_RP){
+    //printf("kuohao");
+    return eval(p+1,q-1);
+  }
+  else if(p==q-1){ //单目运算符处理
     if (tokens[p].type == TK_NOT) {
       return !eval(q, q);
     } else if (tokens[p].type == TK_MINUS) {
@@ -254,15 +259,20 @@ uint32_t eval(int p,int q ){
         uint32_t result=vaddr_read(addr,4);
         return result;
     }
+  }else if((tokens[p].type==TK_NOT||tokens[p].type==TK_MINUS||tokens[p].type==TK_DER)&&tokens[q].type==TK_RP){
+    if(tokens[p].type==TK_NOT){
+      return !eval(p+1,q);
+    }else if(tokens[p].type==TK_MINUS){
+      return -1 * eval(p + 1, q);
+    }else if(tokens[p].type == TK_DER){
+      uint32_t addr=eval(p+1,q);
+      uint32_t result=vaddr_read(addr,4);
+      return result;
+    }
   }
-  else if(tokens[p].type == TK_LP && tokens[q].type == TK_RP){
-    //printf("kuohao");
-    return eval(p+1,q-1);
-  }
-
   else {
     int op = find_dominant_op(p,q);
-    printf("p=%d,q=%d",p,q);
+    //printf("p=%d,q=%d",p,q);
     uint32_t val1=eval(p,op-1);
     uint32_t val2=eval(op+1,q);
     
