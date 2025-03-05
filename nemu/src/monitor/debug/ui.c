@@ -53,6 +53,19 @@ static int cmd_si(char *args){
    return 0;
 }
 
+static int cmd_p(char *args) {
+  bool success = true;
+  uint32_t res = expr(args, &success);
+
+  if (success == false)
+      printf("Expr calculation error!\n");
+  else
+      printf("Expr value = %d\n", res);
+
+  return 0;
+}
+
+
 static int cmd_info(char * args){
   if(args ==NULL){
     printf("info后面必须有输入!");
@@ -124,6 +137,7 @@ static struct {
   {"si", "arguments: [N]; carry out [N] instructions sequentially", cmd_si},
   {"info", "Print reg info or Print monitor point information", cmd_info},
   {"x", "Scan the memory", cmd_x},
+  {"p", "Expr evaluation", cmd_p},
 
 };
 
