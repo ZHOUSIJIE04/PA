@@ -77,7 +77,7 @@ void print_wp() {
   WP * wptemp = head;
   while (wptemp != NULL)
   {
-    printf("%d  %s    %d      %d\n", wptemp -> NO, wptemp -> expr, wptemp -> hitTimes,wptemp->result);
+    printf("%d  %s    %d         %d\n", wptemp -> NO, wptemp -> expr, wptemp -> hitTimes,wptemp->result);
     wptemp = wptemp ->next;
   }
 }
