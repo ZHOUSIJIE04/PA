@@ -60,7 +60,7 @@ static int cmd_p(char *args) {
   if (success == false)
       printf("Expr calculation error!\n");
   else
-      printf("Expr value = %d\n", res);
+      printf("Expr result = %d\n", res);
 
   return 0;
 }
