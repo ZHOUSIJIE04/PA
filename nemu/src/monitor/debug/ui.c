@@ -133,10 +133,9 @@ static int cmd_w(char *args) {
   WP *wp = new_wp(r);
   wp->result = r;
   strcpy(wp->expr, args);
-  printf("Start watch: %u \n", r);
+  printf("Success: set watchpoint %d, oldvalue = %d\n", wp-> NO, wp-> result);
   return 0;
 }
-
 static int cmd_d(char *args) {
   int num = 0;
   int input = sscanf(args, "%d", &num);
