@@ -39,14 +39,12 @@ WP * new_wp(){
     result->next=NULL;
    }
    head=result;
-   //result->NO=wpnum;
-   //wpnum++;
+
    return result;
 }
 
 void free_WP(WP * wp){
-   //wp->NO=0;
-   //wpnum--;
+
    if(free_!=NULL){
     wp->next=free_;
    }else{
