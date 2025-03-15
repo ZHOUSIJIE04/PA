@@ -14,7 +14,7 @@ make_EHelper(pop);
 /*J型*/
 make_EHelper(call);
 make_EHelper(ret);
-
+make_EHelper(jmp);
 
 
 make_EHelper(sub);
