@@ -38,8 +38,14 @@ static inline make_DopHelper(SI) {
    *
    op->simm = ???
    */
-  TODO();
+  //TODO();
+  op->simm=instr_fetch(eip,op->width);
+  if(op->width==4){
+    op->simm=(int32_t)op->simm;
 
+  }else{
+    op->simm=(int8_t)op->simm;
+  }
   rtl_li(&op->val, op->simm);
 
 #ifdef DEBUG
@@ -309,3 +315,4 @@ void operand_write(Operand *op, rtlreg_t* src) {
   else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, op->width, src); }
   else { assert(0); }
 }
+
