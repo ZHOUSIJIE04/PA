@@ -14,6 +14,7 @@ make_EHelper(leave);
 make_EHelper(cltd);
 make_EHelper(pusha);
 make_EHelper(popa);
+make_EHelper(cwtl);
 
 
 
