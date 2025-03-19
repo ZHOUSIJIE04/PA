@@ -14,7 +14,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
   // TODO: Query EFLAGS to determine whether the condition code is satisfied.
   // dest <- ( cc is satisfied ? 1 : 0)
   switch (subcode & 0xe) {
-	  // overflow
+	 
 	  // 此时如果OF=1，就将dest置为1.
     case CC_O:
       rtl_get_OF(dest);
