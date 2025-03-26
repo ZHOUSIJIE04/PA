@@ -4,7 +4,14 @@ void diff_test_skip_qemu();
 void diff_test_skip_nemu();
 
 make_EHelper(lidt) {
-  TODO();
+  // TODO();
+  t1 = id_dest->val;
+  rtl_lm(&t0,&t1,2);
+	cpu.idtr.limit = t0;
+
+  t1 = id_dest->val + 2;
+  rtl_lm(&t0,&t1,4);
+  cpu.idtr.base = t0;
 
   print_asm_template1(lidt);
 }
@@ -36,7 +43,13 @@ make_EHelper(int) {
 }
 
 make_EHelper(iret) {
-  TODO();
+  // TODO();
+  rtl_pop(&cpu.eip);
+	rtl_pop(&cpu.cs);
+	rtl_pop(&t0);
+  memcpy(&cpu.eflags,&t0,sizeof(cpu.eflags));
+	decoding.jmp_eip = 1;
+  decoding.seq_eip = cpu.eip;
 
   print_asm("iret");
 }
@@ -45,7 +58,9 @@ uint32_t pio_read(ioaddr_t, int);
 void pio_write(ioaddr_t, int, uint32_t);
 
 make_EHelper(in) {
-  TODO();
+  // TODO();
+  t1 = pio_read(id_src->val, id_dest->width);
+	operand_write(id_dest, &t1);
 
   print_asm_template2(in);
 
@@ -55,7 +70,8 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  TODO();
+  // TODO();
+  pio_write(id_dest->val, id_src->width, id_src->val);
 
   print_asm_template2(out);
 
@@ -63,3 +79,4 @@ make_EHelper(out) {
   diff_test_skip_qemu();
 #endif
 }
+
