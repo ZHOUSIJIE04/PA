@@ -55,3 +55,10 @@ make_EHelper(shr);
 make_EHelper(sar);
 make_EHelper(setcc);
 make_EHelper(test);
+
+//system
+make_EHelper(in);
+make_EHelper(out);
+// make_EHelper(lidt);
+// make_EHelper(int);
+// make_EHelper(iret);
